@@ -1,7 +1,7 @@
 
 // PREP --------
 
-Gibber.setBPM(100)
+Clock.bpm = 100
 synthEffect = Freesound( 792947 )
 introChords = Freesound( 687041 )
 
