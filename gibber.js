@@ -1,4 +1,11 @@
-//put gibber code here, do we want to make multiple files for different instruments?
+s = Synth("shimmer")
+s.note.seq([0, 4, 7, 9,], 1/2)
+
+s2 = Synth()
+s2.attack = 1/2
+s2.note.seq([0,1,2,3,4,5,6,7,8,9], 1)
+
+
 Gibber.setBPM(100)
 
 // synth 
@@ -9,9 +16,11 @@ s.attack = 0.3
 s.decay = 0.4
 s.sustain = 0.7
 s.release = 1.3
-
 synthPattern1 = s.note.seq([0, 4, 7, 11, 9, 2, 5, 9], 1/4)
 
+
+//background beat - have smth fade in
+//TODO connect everything on background to bus so that we can modify it all
 //claude stuff kinda good
 bass = Synth('bass').note.seq([0,3,5,2], 1/4)
 bass.fx.add(Distortion())
@@ -39,6 +48,5 @@ drums.tidal('[ch?0.3]*8')
 
 drums.tidal('<kd sd kd [oh,kd]> ch*2')
 
-kick = Kick()
-snare = Snare()
-hh = HiHat()
+
+
