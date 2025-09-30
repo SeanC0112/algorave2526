@@ -1,9 +1,20 @@
 
+s = Synth("shimmer")
+s.note.seq([0, 4, 7, 9,], 1/2)
+
+s2 = Synth()
+s2.attack = 1/2
+s2.note.seq([0,1,2,3,4,5,6,7,8,9], 1)
+
+
+Gibber.setBPM(100)
+
 // PREP --------
 
 Clock.bpm = 100
 synthEffect = Freesound( 792947 )
 introChords = Freesound( 687041 )
+
 
 // BUS ---------
 
@@ -12,6 +23,7 @@ fadeIn.gain(0)
 fadeIn.gain.fade(0.8, 4)
 
 // BEGIN --------
+
 
 // intro (0)
 introChords.trigger(1)
@@ -53,6 +65,4 @@ drums.tidal('[ch?0.3]*8')
 // (2)
 drums2 = Drums()
 drums2.tidal('<kd sd kd [oh,kd]> ch*2')
-
-
 
