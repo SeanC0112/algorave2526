@@ -1,12 +1,10 @@
-
-Gibber.setBPM(100)
-
 // PREP --------
 
 Clock.bpm = 100
 synthEffect = Freesound( 792947 )
 introChords = Freesound( 687041 )
 use( 'hydra' ).then( init => init() )
+
 
 // VISUALS --------
 osc( ()=> Math.random() * 50 ).out()
@@ -15,7 +13,18 @@ osc( ()=> Math.random() * 50 ).out()
 
 
 // intro (0)
+filter = Filter()
+
+introChords.fx.add(filter)
+
 introChords.trigger(1)
+
+filter.filterMode = 1
+filter.cutoff = 1
+
+filter.cutoff.fade(0.5, 0, 4)
+
+introChords.stop()
 
 // MISC ---------
   
@@ -46,8 +55,7 @@ rhythm.note.seq([0,0,2,2], 1/16)
 rhythm.gain = 0.3
 
 // strings (1.5)
-pad = Synth[4]('stringPad').disconnect()
-pad.connect(backing)
+pad = Synth[4]('stringPad')
 pad.chord.seq([[0,2,4,7],[3,5,7,10]], 2)
 pad.gain = 0.4
 
@@ -55,7 +63,7 @@ pad.gain = 0.4
 bass = Synth('bass').disconnect()
 bass.connect(backing)
 bass.note.seq([0,3,5,2], 1/4)
-bass.fx.add(Distortion())
+bass.fx.add(Distortion())≥
 
 
 // melody (2)
