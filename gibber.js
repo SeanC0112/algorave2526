@@ -20,9 +20,18 @@ function backingGain(lvl, time) {
     pad.gain.fade(lvl, time)
   }
 }
+
+
 backing = Bus2().connect()
 backing.gain = 1
 
+backingFilter = Filter()
+backing.fx.add(backingFilter)
+pad.fx.add(backingFilter)
+
+filter.filterMode = 1
+filter.cutoff = 1
+filter.cutoff.fade(1,0,8)
 
 // ---------------------------------------------------------
 // VISUALS
@@ -92,6 +101,8 @@ lead.stop()
 rhythm = Synth('square').disconnect()
 rhythm.connect(backing)
 rhythm.note.seq([0, 0, 2, 2], 1/16)
+
+
 rhythm.gain = 0
 
 rhythm.gain.fade(0, 0.75)// Fade In
@@ -115,6 +126,7 @@ pad.stop()
 bass = Synth('bass').disconnect()
 bass.connect(backing)
 bass.note.seq([0, 3, 5, 2], 1/4)
+
 bass.gain = 0
 bass.fx.add(Distortion())
 
