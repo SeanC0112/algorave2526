@@ -121,11 +121,9 @@ bass.note.seq([8, 3, 5, 4], 1/4)
 // VISUALS with cat
 // ---------------------------------------------------------
 
-use('hydra').then(init => {
-  init()
+use('hydra').then(init => init())
 
-  // Load cat image
-  s0.initImage("https://static.vecteezy.com/system/resources/previews/047/308/861/non_2x/cat-jumping-up-in-the-air-on-transparent-background-free-png.png")
+s0.initImage("https://static.vecteezy.com/system/resources/previews/047/308/861/non_2x/cat-jumping-up-in-the-air-on-transparent-background-free-png.png")
 
   // Spin the cat in the center
   src(s0)
@@ -135,10 +133,19 @@ use('hydra').then(init => {
 
   // Combine previous frame + new cat
   src(o0).layer(o1).out(o0)
-})
+
+use( 'hydra' ).then( init => init() )
+
+k = Kick('long').trigger.seq( [.125,.5,2], 1/4 )
+s = Synth().note.seq([0,1,2,1,3,4,1], 1/4)
+ 
+s0.initImage("https://yt3.googleusercontent.com/Xj6XXGkPKNsW0eVuprJ3b7o3TKQDrJl4sOEdjTNWUkRwQnOFLpRi4gZk7tZXLJiroIzpIt-i-Qo=s900-c-k-c0x00ffffff-no-rj")
+  
+osc(0.5, 1, 1.5).modulate(s0, 10).repeat(()=>drums.__out*100).pixelate(() => drums2.__out*1000).blend(noise(2, 2).color(1,1,0), ()=>drums2.__out*10).kaleid(() => drums.__out*100).out()
+
+console.log(s.__out)
+
 
 // ---------------------------------------------------------
 // VISUALS without cat
 // ---------------------------------------------------------
-
-
