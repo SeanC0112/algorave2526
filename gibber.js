@@ -30,7 +30,7 @@ drums.tidal('[ch?0.3]*8', 1)
 drums.tidal('<kd sd kd [oh,kd]> ch*2', 2)
 
 // ---------------------------------------------------------
-// MUSIC
+// PART 1
 // ---------------------------------------------------------
 
 // --- LEAD SYNTH ---
@@ -46,11 +46,12 @@ lead.gain.fade(0, 0.7)// Fade in when you intro is 75% out
 
 // --- BASS ---
 bass = Synth('bass')
+bass.sustain = 0.8
 // lower bass pitch !!!
 bass.note.seq([0, 3, 5, 2], 1/4) // next the bass
 
 
-// wait 10s
+// wait 15s
 
 
 lead.gain.fade(1,0) // no more lead synth...
@@ -60,7 +61,7 @@ rhythm = Synth('square')
 rhythm.note.seq([0, 0, 2, 2], 1/16) // start as lead synth fades 75% out 
 
 
-// wait  10s
+// wait  12s
 
 
 // --- STRINGS ---
@@ -71,8 +72,7 @@ pad.gain = 0
 pad.gain.fade(0, 0.5)// fade in
 
 
-// wait 15s
-
+// wait 20s after fades in
 
 bass.stop()
 
@@ -83,6 +83,9 @@ bass.stop()
 drums.stop()
 
 
+// waits 15s
+
+
 // ---------------------------------------------------------
 // DRUMS 2 
 // ---------------------------------------------------------
@@ -91,6 +94,28 @@ drums2 = Drums()
 drums2.gain = 0.75
 
 drums2.tidal('[kd ~ kd] [~ kd] [kd kd ~] [~ kd]', 0)
+
+// wait 5s
+
+drums2.tidal('[~ sd] [sd ~] [~ sd?0.4] [sd ~]', 1)
+
+// wait 5s 
+
+drums2.tidal('ch*6 [oh?0.35 ch]*2', 2)
+drums2.tidal('~ [~ cp?0.2] ~ [~ cp?0.15]', 4)
+
+// ---------------------------------------------------------
+// PART 2
+// ---------------------------------------------------------
+
+rhythm.gain.fade(1, 0)
+
+// waits 10 
+
+// --- BASS ---
+bass.note.seq([8, 3, 5, 4], 1/4) 
+
+// wait 15s
 
 // ---------------------------------------------------------
 // VISUALS with cat
