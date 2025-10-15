@@ -2,39 +2,98 @@
 // PREP
 // ---------------------------------------------------------
 
-Clock.bpm = 100
 introChords = Freesound(687041)
 use('hydra').then(init => init())
 
-
 // ---------------------------------------------------------
-// BUS
+// INTRO
 // ---------------------------------------------------------
 
-function backingGain(lvl, time) {
-  if (time === 0) {
-    backing.gain = 0
-    pad.gain = 0
-  } else {
-    backing.gain.fade(lvl, time)
-    pad.gain.fade(lvl, time)
-  }
-}
+filter = Filter()
+introChords.fx.add(filter)
 
-
-backing = Bus2().connect()
-backing.gain = 1
-
-backingFilter = Filter()
-backing.fx.add(backingFilter)
-pad.fx.add(backingFilter)
+introChords.trigger(1) //(let play for 5s)
 
 filter.filterMode = 1
 filter.cutoff = 1
-filter.cutoff.fade(1,0,8)
+filter.cutoff.fade(1, 0, 7) // Fade out intro at 5s
 
 // ---------------------------------------------------------
-// VISUALS
+// DRUMS (play as intro fades out, approx 50%)
+// ---------------------------------------------------------
+
+drums = Drums()
+drums.gain = 0.8
+
+drums.tidal('[kd kd ~ kd] sd [~ sd ~ sd] ch*8', 0)
+drums.tidal('[ch?0.3]*8', 1)
+drums.tidal('<kd sd kd [oh,kd]> ch*2', 2)
+
+// ---------------------------------------------------------
+// MUSIC
+// ---------------------------------------------------------
+
+// --- LEAD SYNTH ---
+lead = Synth('lead')
+lead.gain = 0
+lead.note.seq([7, 5, 8, 7, 5, 3, 5, 7], 1/8)
+
+lead.gain.fade(0, 0.7)// Fade in when you intro is 75% out
+
+
+// wait until lead synth is at 100% volume
+
+
+// --- BASS ---
+bass = Synth('bass')
+// lower bass pitch !!!
+bass.note.seq([0, 3, 5, 2], 1/4) // next the bass
+
+
+// wait 10s
+
+
+lead.gain.fade(1,0) // no more lead synth...
+
+// --- RHYTHM SYNTH ---
+rhythm = Synth('square')
+rhythm.note.seq([0, 0, 2, 2], 1/16) // start as lead synth fades 75% out 
+
+
+// wait  10s
+
+
+// --- STRINGS ---
+pad = Synth[4]('stringPad')
+pad.chord.seq([[0, 2, 4, 7], [3, 5, 7, 10]], 2)
+pad.gain = 0
+
+pad.gain.fade(0, 0.5)// fade in
+
+
+// wait 15s
+
+
+bass.stop()
+
+
+// wait 10s
+
+
+drums.stop()
+
+
+// ---------------------------------------------------------
+// DRUMS 2 
+// ---------------------------------------------------------
+
+drums2 = Drums()
+drums2.gain = 0.75
+
+drums2.tidal('[kd ~ kd] [~ kd] [kd kd ~] [~ kd]', 0)
+
+// ---------------------------------------------------------
+// VISUALS with cat
 // ---------------------------------------------------------
 
 use('hydra').then(init => {
@@ -54,84 +113,7 @@ use('hydra').then(init => {
 })
 
 // ---------------------------------------------------------
-// INTRO
+// VISUALS without cat
 // ---------------------------------------------------------
 
-filter = Filter()
-introChords.fx.add(filter)
 
-introChords.trigger(1)
-
-filter.filterMode = 1
-filter.cutoff = 1
-filter.cutoff.fade(0.5, 0, 4) // Fade out intro
-
-introChords.stop()
-
-// ---------------------------------------------------------
-// DRUMS
-// ---------------------------------------------------------
-
-drums = Drums().disconnect()
-drums.connect(backing)
-
-drums.tidal('[kd kd ~ kd] sd [~ sd ~ sd] ch*8', 0)
-drums.tidal('[ch?0.3]*8', 1)
-drums.tidal('<kd sd kd [oh,kd]> ch*2', 2)
-
-drums.stop()
-
-// ---------------------------------------------------------
-// MUSIC
-// ---------------------------------------------------------
-
-// --- LEAD SYNTH ---
-lead = Synth('lead').disconnect()
-lead.connect(backing)
-lead.gain = 0
-lead.note.seq([7, 5, 8, 7, 5, 3, 5, 7], 1/8)
-
-lead.gain.fade(0, 1)// Fade In
-
-lead.gain.fade(1, 0) // Fade Out
-
-lead.stop()
-
-// --- RHYTHM SYNTH ---
-rhythm = Synth('square').disconnect()
-rhythm.connect(backing)
-rhythm.note.seq([0, 0, 2, 2], 1/16)
-
-
-rhythm.gain = 0
-
-rhythm.gain.fade(0, 0.75)// Fade In
-
-rhythm.gain.fade(0.75, 0) // Fade Out
-
-rhythm.stop()
-
-// --- STRINGS ---
-pad = Synth[4]('stringPad')
-pad.chord.seq([[0, 2, 4, 7], [3, 5, 7, 10]], 2)
-pad.gain = 0
-
-pad.gain.fade(0, 0.5)// Fade In
-
-pad.gain.fade(0.5, 0) // Fade Out
-
-pad.stop()
-
-// --- BASS ---
-bass = Synth('bass').disconnect()
-bass.connect(backing)
-bass.note.seq([0, 3, 5, 2], 1/4)
-
-bass.gain = 0
-bass.fx.add(Distortion())
-
-bass.gain.fade(0, 0.8)// Fade In
-
-bass.gain.fade(0.8, 0) // Fade Out
-
-bass.stop()
