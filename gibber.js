@@ -4,6 +4,8 @@
 
 introChords = Freesound(687041)
 use('hydra').then(init => init())
+
+
 osc(1.5,1.25).mult(shape(1,0.09).rotate(1.5))
   .diff(gradient())
   .add(shape(2,2).blend(gradient(1)))
@@ -39,6 +41,25 @@ drums.gain = 0.8
 drums.tidal('[kd kd ~ kd] sd [~ sd ~ sd] ch*8', 0)
 drums.tidal('[ch?0.3]*8', 1)
 drums.tidal('<kd sd kd [oh,kd]> ch*2', 2)
+
+
+solid(0.5,0.5,0.5)
+	.mask(shape(4,0.4, 0.1).color(1,1,1).repeat(20,10).invert())
+	.color(0,0,1)
+	//.mult(solid(0.5,0.5,0.5).mask(shape(4,0.4, 0.1).color(1,1,1).repeat(20,10).invert()).color(0,0,1))
+  //.blend(solid(1,1,1).diff(shape(4,0.6, 0.001).repeat(20,10)).color(0,0,1))
+	.out()
+
+layerOffset = 0.3
+minimum = 0.7
+step = 0.1
+
+solid(1,1,1).diff(shape(4,minimum, 0.001).repeat(20,10)).color(1,1,1)
+  .mult(solid(1,1,1).mask(shape(4,minimum+step, 0.1).color(layerOffset,0*layerOffset,0).repeat(20,10).invert()))
+  .mult(solid(1,1,1).mask(shape(4,step*2+minimum, 0.1).color(layerOffset,0*layerOffset,0).repeat(20,10).invert()))
+  .out()
+
+solid(1,1,1).mask(shape(4,0.4, 0.1).color(0.75,0.75,0.75).repeat(20,10).invert()).out()
 
 // ---------------------------------------------------------
 // PART 1
