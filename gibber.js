@@ -4,6 +4,15 @@
 
 introChords = Freesound(687041)
 use('hydra').then(init => init())
+osc(1.5,1.25).mult(shape(1,0.09).rotate(1.5))
+  .diff(gradient())
+  .add(shape(2,2).blend(gradient(1)))
+  .modulate(noise()
+            .modulate(noise().scrollY(1,0.0625)))
+  .blend(o0)
+  .color(1,-0.5,-0.75)
+	.rotate(6.28318530718*3/4)
+  .out()
 
 // ---------------------------------------------------------
 // INTRO
@@ -17,6 +26,8 @@ introChords.trigger(1) //(let play for 5s)
 filter.filterMode = 1
 filter.cutoff = 1
 filter.cutoff.fade(1, 0, 7) // Fade out intro at 5s
+Console.log(introChords.__out)
+
 
 // ---------------------------------------------------------
 // DRUMS (play as intro fades out, approx 50%)
