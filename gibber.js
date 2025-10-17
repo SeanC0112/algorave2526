@@ -43,23 +43,17 @@ drums.tidal('[ch?0.3]*8', 1)
 drums.tidal('<kd sd kd [oh,kd]> ch*2', 2)
 
 
-solid(0.5,0.5,0.5)
-	.mask(shape(4,0.4, 0.1).color(1,1,1).repeat(20,10).invert())
-	.color(0,0,1)
-	//.mult(solid(0.5,0.5,0.5).mask(shape(4,0.4, 0.1).color(1,1,1).repeat(20,10).invert()).color(0,0,1))
-  //.blend(solid(1,1,1).diff(shape(4,0.6, 0.001).repeat(20,10)).color(0,0,1))
-	.out()
 
-layerOffset = 0.3
-minimum = 0.7
-step = 0.1
 
-solid(1,1,1).diff(shape(4,minimum, 0.001).repeat(20,10)).color(1,1,1)
-  .mult(solid(1,1,1).mask(shape(4,minimum+step, 0.1).color(layerOffset,0*layerOffset,0).repeat(20,10).invert()))
-  .mult(solid(1,1,1).mask(shape(4,step*2+minimum, 0.1).color(layerOffset,0*layerOffset,0).repeat(20,10).invert()))
+minColor = [0,0,0.2]
+maxColor = [0.9,0.9,0.9]
+steps = 2
+minSize = 0.5
+stepSize = 0.175
+solid(minColor[0],minColor[1],minColor[2]).diff(shape(4,minimum, 0.001).repeat(20,10).color(minColor[0],minColor[1],minColor[2]))
+	.add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minimum+stepSize, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
+	.add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minimum+stepSize*2, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
   .out()
-
-solid(1,1,1).mask(shape(4,0.4, 0.1).color(0.75,0.75,0.75).repeat(20,10).invert()).out()
 
 // ---------------------------------------------------------
 // PART 1
