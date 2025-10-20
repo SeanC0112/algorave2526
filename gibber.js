@@ -3,7 +3,36 @@
 // ---------------------------------------------------------
 
 introChords = Freesound(687041)
+
+// ---------------------------------------------------------
+// VISUALS
+// ---------------------------------------------------------
+
 use('hydra').then(init => init())
+
+// track overall loudness
+amp = Follow(master, 1024)
+amp.smooth = 0.9 // smooths rapid amplitude changes
+
+// make amplitude available globally
+window.ampVal = 0
+setInterval(() => { window.ampVal = amp.getValue() }, 20)
+
+osc(1.5, 1.25)
+  .mult(shape(1, 0.09).rotate(1.5))
+  .diff(gradient())
+  .add(shape(2, 2).blend(gradient(1)))
+  .modulate(noise().modulate(noise().scrollY(1, 0.0625)))
+  .blend(o0)
+  .color(
+    () => 1 + window.ampVal * 2,
+    () => 1 - window.ampVal * 3,
+    () => 1 - window.ampVal * 4
+  )
+  .rotate(() => time * (0.2 + window.ampVal * 3))
+  .scale(() => 1 + window.ampVal * 0.5)
+  .out(o0)
+
 
 // ---------------------------------------------------------
 // INTRO
@@ -54,7 +83,7 @@ lead.filterMult = 1.2
 lead.gain = 0
 lead.note.seq([7, 5, 8, 7, 5, 3, 5, 7], 1/8)
 
-lead.gain.fade(0, 0.2)// Fade in when you intro is 75% out
+lead.gain.fade(0, 0.2)// Fade in when intro is 75% out
 
 
 // --- BASS ---
@@ -129,6 +158,21 @@ drums2.tidal('ch*6 [oh?0.35 ch]*2', 2)
 drums2.tidal('~ [~ cp?0.2] ~ [~ cp?0.15]', 4)
 
 // ---------------------------------------------------------
+// VISUALS with cat
+// ---------------------------------------------------------
+
+use('hydra').then(init => init())
+s0.initImage("https://static.vecteezy.com/system/resources/previews/047/308/861/non_2x/cat-jumping-up-in-the-air-on-transparent-background-free-png.png")
+  // Spin the cat in the center
+  src(s0)
+    .scale(0.5)
+    .rotate(() => time * 0.5)
+    .out(o1)
+  // Combine previous frame + new cat
+  src(o0).layer(o1).out(o0)
+
+
+// ---------------------------------------------------------
 // PART 2
 // ---------------------------------------------------------
 
@@ -145,36 +189,3 @@ rhythm.gain.fade(1, 0)
 // wait 15s
 
 pad.gain.fade(0.3, 0)
-
-// ---------------------------------------------------------
-// VISUALS with cat
-// ---------------------------------------------------------
-
-use('hydra').then(init => init())
-
-s0.initImage("https://static.vecteezy.com/system/resources/previews/047/308/861/non_2x/cat-jumping-up-in-the-air-on-transparent-background-free-png.png")
-
-  // Spin the cat in the center
-  src(s0)
-    .scale(0.5)
-    .rotate(() => time * 0.5)
-    .out(o1)
-
-  // Combine previous frame + new cat
-  src(o0).layer(o1).out(o0)
-
-use( 'hydra' ).then( init => init() )
-
-k = Kick('long').trigger.seq( [.125,.5,2], 1/4 )
-s = Synth().note.seq([0,1,2,1,3,4,1], 1/4)
- 
-s0.initImage("https://yt3.googleusercontent.com/Xj6XXGkPKNsW0eVuprJ3b7o3TKQDrJl4sOEdjTNWUkRwQnOFLpRi4gZk7tZXLJiroIzpIt-i-Qo=s900-c-k-c0x00ffffff-no-rj")
-  
-osc(0.5, 1, 1.5).modulate(s0, 10).repeat(()=>drums.__out*100).pixelate(() => drums2.__out*1000).blend(noise(2, 2).color(1,1,0), ()=>drums2.__out*10).kaleid(() => drums.__out*100).out()
-
-console.log(s.__out)
-
-
-// ---------------------------------------------------------
-// VISUALS without cat
-// ---------------------------------------------------------
