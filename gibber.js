@@ -51,20 +51,20 @@ steps = 2
 minSize = 0.5
 stepSize = 0.175
 
-solid(minColor[0],minColor[1],minColor[2]).diff(shape(4,minimum, 0.001).repeat(20,10).color(minColor[0],minColor[1],minColor[2]))
+solid(minColor[0],minColor[1],minColor[2]).diff(shape(4,minSize, 0.001).repeat(20,10).color(minColor[0],minColor[1],minColor[2]))
 	.modulate(noise(1), 0.1)
-	.add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minimum+stepSize, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
+	.add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
 	.modulate(noise(1), 0.2)
-  .add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minimum+stepSize*2, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
+  .add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
   .modulate(noise(1), 0.3)
   .out()
 
 
-solid(0.8,0,0).diff(shape(4,minimum, 0.001).repeat(20,10).color(0.8,0,0))
+solid(0.8,0,0).diff(shape(4,minSize, 0.001).repeat(20,10).color(0.8,0,0))
 	.modulateScrollX(osc(1), 0.3)
-	.add(solid(0,0.8,0).diff(shape(4,minimum+stepSize, 0.001).repeat(20,10).color(0,0.8,0)))
+	.add(solid(0,0.8,0).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color(0,0.8,0)))
 	.modulateScrollX(osc(1), 0.3)
-  .add(solid(0,0,0.8).diff(shape(4,minimum+stepSize*2, 0.001).repeat(20,10).color(0,0,0.8)))
+  .add(solid(0,0,0.8).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color(0,0,0.8)))
   .modulateScrollX(osc(1), 0.3)
   .out()
 
