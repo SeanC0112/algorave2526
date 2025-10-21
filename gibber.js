@@ -4,8 +4,6 @@
 
 introChords = Freesound(687041)
 use('hydra').then(init => init())
-
-
 osc(1.5,1.25).mult(shape(1,0.09).rotate(1.5))
   .diff(gradient())
   .add(shape(2,2).blend(gradient(1)))
@@ -41,32 +39,45 @@ drums.gain = 0.8
 drums.tidal('[kd kd ~ kd] sd [~ sd ~ sd] ch*8', 0)
 drums.tidal('[ch?0.3]*8', 1)
 drums.tidal('<kd sd kd [oh,kd]> ch*2', 2)
-
-
-
-
 minColor = [0,0,0.5]
 maxColor = [0.9,0.9,0.9]
 steps = 2
 minSize = 0.5
 stepSize = 0.175
-
-solid(minColor[0],minColor[1],minColor[2]).diff(shape(4,minSize, 0.001).repeat(20,10).color(minColor[0],minColor[1],minColor[2]))
-	.modulate(noise(1), 0.1)
-	.add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
-	.modulate(noise(1), 0.2)
-  .add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
-  .modulate(noise(1), 0.3)
-  .out()
-
-
-solid(0.8,0,0).diff(shape(4,minSize, 0.001).repeat(20,10).color(0.8,0,0))
-	.modulateScrollX(osc(1), 0.3)
+solid(0,0,0.8).diff(shape(4,minSize, 0.001).repeat(20,10).color(0,0,0.8))
+	//.modulateScrollX(osc(1), 0.3)
+	.modulate(noise(1), () => drums.__out)
 	.add(solid(0,0.8,0).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color(0,0.8,0)))
-	.modulateScrollX(osc(1), 0.3)
-  .add(solid(0,0,0.8).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color(0,0,0.8)))
-  .modulateScrollX(osc(1), 0.3)
+	//.modulateScrollX(osc(1), 0.3)
+	.modulate(noise(1), () => drums.__out)
+  .add(solid(0.8,0,0).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color(0.8,0,0)))
+  //.modulateScrollX(osc(1), 0.3)
+  .modulate(noise(1), () => drums.__out)
   .out()
+
+
+
+
+
+//solid(minColor[0],minColor[1],minColor[2]).diff(shape(4,minSize, 0.001).repeat(20,10).color(minColor[0],minColor[1],minColor[2]))
+	//.modulate(noise(1), 0.1)
+	//.add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
+	//.modulate(noise(1), 0.2)
+  //.add(solid((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color((maxColor[0]-minColor[0])/steps,(maxColor[1]-minColor[1])/steps,(maxColor[2]-minColor[2])/steps)))
+  //.modulate(noise(1), 0.3)
+  //.out()
+
+//Ignore
+//solid(0,0,0.8).diff(shape(4,minSize, 0.001).repeat(20,10).color(0,0,0.8))
+	//.modulateScrollX(osc(1), 0.3)
+	//.modulate(noise(1), () => drums.__out)
+	//.add(solid(0,0.8,0).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color(0,0.8,0)))
+	//.modulateScrollX(osc(1), 0.3)
+	//.modulate(noise(1), () => drums.__out)
+  //.add(solid(0.8,0,0).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color(0.8,0,0)))
+  //.modulateScrollX(osc(1), 0.3)
+  //.modulate(noise(1), () => drums.__out)
+  //.out()
 
 // ---------------------------------------------------------
 // PART 1
@@ -78,6 +89,16 @@ lead.gain = 0
 lead.note.seq([7, 5, 8, 7, 5, 3, 5, 7], 1/8)
 
 lead.gain.fade(0, 0.7)// Fade in when you intro is 75% out
+solid(0,0,0.8).diff(shape(4,minSize, 0.001).repeat(20,10).color(0,0,0.8))
+	//.modulateScrollX(osc(1), 0.3)
+	.modulate(noise(() => lead.__out*10), () => drums.__out)
+	.add(solid(0,0.8,0).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color(0,0.8,0)))
+	//.modulateScrollX(osc(1), 0.3)
+	.modulate(noise(() => lead.__out*10), () => drums.__out)
+  .add(solid(0.8,0,0).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color(0.8,0,0)))
+  //.modulateScrollX(osc(1), 0.3)
+  .modulate(noise(() => lead.__out*10), () => drums.__out)
+  .out()
 
 
 // wait until lead synth is at 100% volume
@@ -86,6 +107,7 @@ lead.gain.fade(0, 0.7)// Fade in when you intro is 75% out
 // --- BASS ---
 bass = Synth('bass')
 bass.sustain = 0.8
+bass.octave = -1
 // lower bass pitch !!!
 bass.note.seq([0, 3, 5, 2], 1/4) // next the bass
 
@@ -94,7 +116,29 @@ bass.note.seq([0, 3, 5, 2], 1/4) // next the bass
 
 
 lead.gain.fade(1,0) // no more lead synth...
+solid(0,0,0.8).diff(shape(4,minSize, 0.001).repeat(20,10).color(0,0,0.8))
+	//.modulateScrollX(osc(1), 0.3)
+	.modulate(noise(() => lead.__out*10), () => drums.__out)
+	.add(solid(0,0.8,0).diff(shape(4,minSize+stepSize, 0.001).repeat(20,10).color(0,0.8,0)))
+	//.modulateScrollX(osc(1), 0.3)
+	.modulate(noise(() => lead.__out*10), () => drums.__out)
+  .add(solid(0.8,0,0).diff(shape(4,minSize+stepSize*2, 0.001).repeat(20,10).color(0.8,0,0)))
+  //.modulateScrollX(osc(1), 0.3)
+  .modulate(noise(() => lead.__out*10), () => drums.__out)
+	.layer(solid(0,0,0,() => 1-lead.__out*10)
+	.layer(
+    voronoi(8,1)
+    .mult(osc(10,0.1,()=>Math.sin(time)*1).saturate(3).kaleid(200))
+    .modulate(o0,()=> 0.1 * Math.sine(bass.__out*10))
+    .add(o0,0.8)
+    .scrollY(-0.001)
+    .scale(0.9999999)
+    .modulate(voronoi(8,1),0.0008)
+    .luma(0.3)))
+  .out()
 
+
+//speed = 0.1
 // --- RHYTHM SYNTH ---
 rhythm = Synth('square')
 rhythm.note.seq([0, 0, 2, 2], 1/16) // start as lead synth fades 75% out 
@@ -109,6 +153,15 @@ pad.chord.seq([[0, 2, 4, 7], [3, 5, 7, 10]], 2)
 pad.gain = 0
 
 pad.gain.fade(0, 0.5)// fade in
+voronoi(8,1)
+   .mult(osc(10,0.1,()=>Math.sin(time)*pad.__out*30).saturate(3).kaleid(200))
+   .modulate(o0,0.1)
+   .add(o0,0.8)
+   .scrollY(-0.001)
+   .scale(0.9999999)
+   .modulate(voronoi(8,1),0.0008)
+   .luma(0.3)
+  .out()
 
 
 // wait 20s after fades in
@@ -132,6 +185,8 @@ drums.stop()
 drums2 = Drums()
 drums2.gain = 0.75
 
+s0.initImage("https://yt3.googleusercontent.com/Xj6XXGkPKNsW0eVuprJ3b7o3TKQDrJl4sOEdjTNWUkRwQnOFLpRi4gZk7tZXLJiroIzpIt-i-Qo=s900-c-k-c0x00ffffff-no-rj")
+osc(0.5, 1, 1.5).modulate(s0, 10).repeat(()=>pad.__out*100).pixelate(() => pad.__out*1000).blend(noise(2, 2).color(1,1,0), ()=>drums2.__out*10).kaleid(() => drums2.__out*100).out()
 drums2.tidal('[kd ~ kd] [~ kd] [kd kd ~] [~ kd]', 0)
 
 // wait 5s
