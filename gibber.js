@@ -171,6 +171,7 @@ bass.stop()
 
 // wait 10s
 
+drums.stop()
 
 drums.stop()
 
