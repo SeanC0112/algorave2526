@@ -169,7 +169,15 @@ voronoi(8,1)
    .luma(0.3)
   .out()
 
-// wait 15s 
+
+// wait 20s after fades in
+
+bass.stop()
+
+
+// wait 10s
+
+drums.stop()
 
 drums.stop()
 
@@ -218,11 +226,3 @@ src(o0).layer(o1).out(o0)
 // ---------------------------------------------------------
 // END
 // ---------------------------------------------------------
-
-pad.gain.fade(0.3, 0)  // wait
-
-bass.stop()
-
-drums2.stop()
-
-
